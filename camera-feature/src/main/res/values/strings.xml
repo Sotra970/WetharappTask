@@ -1,0 +1,4 @@
+<resources>
+    <string name="take_photo">Capture</string>
+    <string name="read_external_storage">"Application require read external storage to show yours capture image "</string>
+</resources>

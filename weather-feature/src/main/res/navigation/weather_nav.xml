@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/weather_nav"
+    app:startDestination="@id/weatharFragment"
+    >
+    <fragment
+        android:id="@+id/weatharFragment"
+        android:name="com.weatherapp.WeatharFragment"
+        android:label="weathar_fragment"
+        tools:layout="@layout/weathar_fragment">
+        <deepLink app:uri="weatherapp://weatherdest" />
+    </fragment>
+
+</navigation>

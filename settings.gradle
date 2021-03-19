@@ -1,0 +1,7 @@
+include ':weather-feature'
+include ':gallery-feature'
+include ':domain'
+include ':data'
+include ':camera-feature'
+include ':app'
+rootProject.name = "Wetharapp"

@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Wetharapp</string>
+    <string name="gallery">Gallery</string>
+    <string name="weather">weather</string>
+</resources>

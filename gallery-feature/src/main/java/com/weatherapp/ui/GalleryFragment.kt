@@ -9,10 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import com.weather.R
 import com.weather.camera_feature.core.CameraControllerCallback
@@ -32,7 +30,8 @@ class GalleryFragment @Inject constructor() : Fragment()  ,
     CameraControllerCallback {
 
 
-    private val READ_EXTERNAL_STORAGE_KEY: Int = 555
+    private val READ_EXTERNAL_STORAGE_KEY_GET_IMGS: Int = 566
+    private val READ_EXTERNAL_STORAGE_KEY_Captur_img: Int = 555
 
     private val TAG =  "GalleryFragment"
 
@@ -63,8 +62,10 @@ class GalleryFragment @Inject constructor() : Fragment()  ,
         setupBinding()
         // observe to bind in adapter
         viewModel.images.observe(viewLifecycleOwner , { galleryAdapter.add(it) })
-        viewModel.getImages()
+        getImages()
     }
+
+
 
     private fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
@@ -98,14 +99,29 @@ class GalleryFragment @Inject constructor() : Fragment()  ,
             EasyPermissions.requestPermissions(
                 this,
                 getString(R.string.read_external_storage),
-                READ_EXTERNAL_STORAGE_KEY,
+                READ_EXTERNAL_STORAGE_KEY_Captur_img,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         } else {
-           captureImage()
+            capturePhotoUsecase.startCamera(this)
         }
     }
+
+    private fun getImages() {
+        if (!hasReadExternalStoragePermission() && android.os.Build.VERSION.SDK_INT < 29 && android.os.Build.VERSION.SDK_INT >= 26){
+            EasyPermissions.requestPermissions(
+                this,
+                getString(R.string.read_external_storage),
+                READ_EXTERNAL_STORAGE_KEY_GET_IMGS,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        } else {
+            viewModel.getImages()
+        }
+    }
+
     fun hasReadExternalStoragePermission(): Boolean {
         context?.let {
             return EasyPermissions.hasPermissions(
@@ -137,13 +153,15 @@ class GalleryFragment @Inject constructor() : Fragment()  ,
 
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {
         Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size)
-        if (requestCode==READ_EXTERNAL_STORAGE_KEY)
+        if (requestCode==READ_EXTERNAL_STORAGE_KEY_Captur_img)
             requestReadExternalStorageForPreQDevices()
+        else if (requestCode==READ_EXTERNAL_STORAGE_KEY_GET_IMGS)
+            getImages()
 
     }
 
     override fun captureImage() {
-        capturePhotoUsecase.startCamera(this)
+        requestReadExternalStorageForPreQDevices()
     }
 
 

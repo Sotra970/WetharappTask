@@ -1,7 +1,7 @@
-package com.weather.data.repo
+package com.weather.data.gateways.local.ImagesDataSource.repo
 
-import com.weather.data.gateways.ImagesDataSource.GalleryImagesSource
-import com.weather.data.gateways.ImagesDataSource.models.CameraDataSourceModel
+import com.weather.data.gateways.local.ImagesDataSource.source.GalleryImagesSource
+import com.weather.data.gateways.local.ImagesDataSource.models.CameraDataSourceModel
 import javax.inject.Inject
 
 /**

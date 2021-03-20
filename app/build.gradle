@@ -76,4 +76,8 @@ dependencies {
 
     //easypermissions
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    //timber logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
 }

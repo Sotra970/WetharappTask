@@ -1,4 +1,4 @@
-package com.weather.data.gateways.UserDataSource
+package com.weather.data.gateways.local.UserDataSource.source
 
 import android.content.ContentResolver
 import android.content.Context

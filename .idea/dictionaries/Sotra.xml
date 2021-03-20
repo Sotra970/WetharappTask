@@ -2,6 +2,7 @@
   <dictionary name="Sotra">
     <words>
       <w>interactor</w>
+      <w>usecase</w>
     </words>
   </dictionary>
 </component>

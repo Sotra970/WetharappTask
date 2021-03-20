@@ -1,8 +1,7 @@
 package com.weatherapp.domain.usecase
 
 import android.net.Uri
-import com.weather.data.repo.UserPrefInteractor
-import kotlinx.coroutines.flow.Flow
+import com.weather.data.gateways.local.UserDataSource.repo.UserPrefInteractor
 import javax.inject.Inject
 
 /**

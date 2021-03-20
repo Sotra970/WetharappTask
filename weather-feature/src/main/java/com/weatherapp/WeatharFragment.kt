@@ -1,7 +1,6 @@
 package com.weatherapp
 
 import android.net.Uri
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
-import com.weatherapp.databinding.WeatharFragmentBinding
+import com.weatherapp.core.RemoteRetryCallback
 import com.weatherapp.domain.core.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -34,7 +33,7 @@ class WeatharFragment @Inject constructor() : Fragment() {
 
     override fun  onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupBinding()
-        // observe to bind in adapter
+        // observe bg image
         viewModel.getBgImage().observe(viewLifecycleOwner , {
             Glide.with(binding.weatharBg.context)
                 .load(Uri.parse(it))
@@ -43,12 +42,25 @@ class WeatharFragment @Inject constructor() : Fragment() {
                 .transition( DrawableTransitionOptions().crossFade())
                 .into(binding.weatharBg)
         })
+
+        viewModel.getWeather()
+
+    }
+    companion object{
+        @JvmStatic
+        lateinit var  retryCallback :RemoteRetryCallback
     }
 
-    private fun setupBinding() {
+     fun setupBinding() {
         binding.lifecycleOwner = viewLifecycleOwner
-//        galleryAdapter=GalleryAdapter(this)
-//        binding.adapter = galleryAdapter
+        binding.viewModel = viewModel
+         retryCallback = object : RemoteRetryCallback() {
+             override fun callApi() {
+                 viewModel.getWeather()
+             }
+         }
+        binding.callback = retryCallback
+         binding.executePendingBindings()
     }
 
 }

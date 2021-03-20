@@ -1,7 +1,6 @@
 package com.weatherapp.domain.usecase
 
-import com.weather.data.gateways.ImagesDataSource.GalleryImagesSource
-import com.weather.data.repo.GalleryImagesInteractor
+import com.weather.data.gateways.local.ImagesDataSource.repo.GalleryImagesInteractor
 import com.weatherapp.domain.entities.ImageEntity
 import javax.inject.Inject
 import javax.inject.Singleton

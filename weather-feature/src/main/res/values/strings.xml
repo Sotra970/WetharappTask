@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="day">Day</string>
+    <string name="night">Night</string>
+    <string name="feelLike">Feels like</string>
+    <string name="retry">Retry</string>
+    <string name="no_internet">"Please check your internet and try again "</string>
+</resources>

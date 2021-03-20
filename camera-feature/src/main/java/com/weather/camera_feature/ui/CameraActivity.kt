@@ -147,19 +147,12 @@ class CameraActivity : AppCompatActivity() {
            ).build()
            return  outputOptions
        }else{
-           // Create time-stamped output image name
-           val imageName = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis())
-           val contentValues = ContentValues().apply {
-               put(MediaStore.MediaColumns.DISPLAY_NAME, imageName  )
-               put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-           }
+           // Create time-stamped output file to hold the image
+           val photoFile =  File(getOutputDirectory(), SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+                   .format(System.currentTimeMillis()) + ".jpg")
+
            // Create output options object which contains file + metadata
-           val outputOptions = ImageCapture.OutputFileOptions.Builder(
-                   contentResolver,
-                   MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                   contentValues
-           ).build()
-           return  outputOptions
+           return  ImageCapture.OutputFileOptions.Builder(photoFile).build()
        }
     }
 
@@ -316,6 +309,15 @@ private fun aspectRatio(width: Int, height: Int): Int {
         return cameraProvider?.hasCamera(CameraSelector.DEFAULT_FRONT_CAMERA) ?: false
     }
 
+    fun cameraSwitch(view: View) {
+            lensFacing = if (CameraSelector.LENS_FACING_FRONT == lensFacing) {
+                CameraSelector.LENS_FACING_BACK
+            } else {
+                CameraSelector.LENS_FACING_FRONT
+            }
+            // Re-bind use cases to update selected camera
+            bindImageCapture()
+    }
 
 
 }

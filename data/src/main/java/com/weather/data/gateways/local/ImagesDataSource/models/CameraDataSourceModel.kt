@@ -1,4 +1,4 @@
-package com.weather.data.gateways.ImagesDataSource.models
+package com.weather.data.gateways.local.ImagesDataSource.models
 
 import android.net.Uri
 

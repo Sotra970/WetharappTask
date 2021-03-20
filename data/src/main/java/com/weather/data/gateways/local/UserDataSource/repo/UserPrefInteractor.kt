@@ -1,9 +1,8 @@
-package com.weather.data.repo
+package com.weather.data.gateways.local.UserDataSource.repo
 
 import android.net.Uri
-import com.weather.data.gateways.UserDataSource.UserDataStore
+import com.weather.data.gateways.local.UserDataSource.source.UserDataStore
 import kotlinx.coroutines.flow.Flow
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 

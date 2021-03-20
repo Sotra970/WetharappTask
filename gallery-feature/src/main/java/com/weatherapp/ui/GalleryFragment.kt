@@ -92,6 +92,7 @@ class GalleryFragment @Inject constructor() : Fragment()  ,
         viewModel.getImages()
     }
 
+    
 
 
     private fun requestReadExternalStorageForPreQDevices() {

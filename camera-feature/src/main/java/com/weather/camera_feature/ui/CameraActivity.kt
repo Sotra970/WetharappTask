@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
+import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -120,14 +121,17 @@ class CameraActivity : AppCompatActivity() {
                     // If the folder selected is an external media directory, this is
                     // unnecessary but otherwise other apps will not be able to access our
                     // images unless we scan them using [MediaScannerConnection]
-                    if (android.os.Build.VERSION.SDK_INT >= 29){
+                    if (android.os.Build.VERSION.SDK_INT < 29){
+                        val mimeType = MimeTypeMap.getSingleton()
+                            .getMimeTypeFromExtension(savedUri.toFile().extension)
                         MediaScannerConnection.scanFile(
                                 baseContext,
                                 arrayOf(savedUri.toFile().absolutePath),
-                                arrayOf(".jpg")
+                            arrayOf(mimeType)
                         ) { _, uri ->
+                            Log.d("CAP_IMG", "Image capture scanned into media store: $uri")
                             setResult(RESULT_OK, Intent().apply {
-                                putExtra(SAVED_IMG_KEY,savedUri.toString())
+                                putExtra(SAVED_IMG_KEY,uri.toString())
                             })
                             finish()
                         }
@@ -163,6 +167,7 @@ class CameraActivity : AppCompatActivity() {
            // Create time-stamped output file to hold the image
             photoFile =  File(getOutputDirectory(), SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                    .format(System.currentTimeMillis()) + ".jpg")
+
 
            // Create output options object which contains file + metadata
            return  ImageCapture.OutputFileOptions.Builder(photoFile!!).build()

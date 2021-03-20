@@ -39,9 +39,9 @@ class GalleryImagesSource @Inject constructor(
         val cursor = context.contentResolver.query(
             getUri(),
             imageProjection,
-                null,null,
-//            getSelection(),
-//            getSlectionArgs(),
+//                null,null,
+            getSelection(),
+            getSlectionArgs(),
             imageSortOrder
         )
         cursor.use {

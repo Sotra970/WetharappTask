@@ -9,6 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.weatherapp.domain.usecase.GalleryImagesUsecase
 import com.weatherapp.ui.GalleryFragment
@@ -28,23 +29,26 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    override fun onSupportNavigateUp() =
-        Navigation.findNavController(findViewById(R.id.fragment_container)).navigateUp()
-
+ 
     private fun setupbottomSheet() {
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
         val navController = navHostFragment.findNavController()
+
         bottomNavigation.setOnNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.weather_item -> {
+                    if (  bottomNavigation.selectedItemId !=   R.id.weather_item)
                     navController.navigate( Uri.parse("weatherapp://weatherdest"))
                 }
                 R.id.gallery_item -> {
+                    if (  bottomNavigation.selectedItemId !=   R.id.gallery_item)
                     navController.navigate( Uri.parse("weatherapp://gallerydest"))
                 }
             }
             return@setOnNavigationItemSelectedListener true
         }
+
+
 
     }
     private fun setupNav() {

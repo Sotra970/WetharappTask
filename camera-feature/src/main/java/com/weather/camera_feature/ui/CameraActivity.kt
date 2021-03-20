@@ -120,12 +120,25 @@ class CameraActivity : AppCompatActivity() {
                     // If the folder selected is an external media directory, this is
                     // unnecessary but otherwise other apps will not be able to access our
                     // images unless we scan them using [MediaScannerConnection]
+                    if (android.os.Build.VERSION.SDK_INT >= 29){
+                        MediaScannerConnection.scanFile(
+                                baseContext,
+                                arrayOf(savedUri.toFile().absolutePath),
+                                arrayOf(".jpg")
+                        ) { _, uri ->
+                            setResult(RESULT_OK, Intent().apply {
+                                putExtra(SAVED_IMG_KEY,savedUri.toString())
+                            })
+                            finish()
+                        }
+                    }else{
+                        setResult(RESULT_OK, Intent().apply {
+                            putExtra(SAVED_IMG_KEY,savedUri.toString())
+                        })
+                        finish()
+                    }
 
 
-                    setResult(RESULT_OK, Intent().apply {
-                        putExtra(SAVED_IMG_KEY,savedUri.toString())
-                    })
-                    finish()
                 }
             })
     }
@@ -148,11 +161,11 @@ class CameraActivity : AppCompatActivity() {
            return  outputOptions
        }else{
            // Create time-stamped output file to hold the image
-           val photoFile =  File(getOutputDirectory(), SimpleDateFormat(FILENAME_FORMAT, Locale.US)
+            photoFile =  File(getOutputDirectory(), SimpleDateFormat(FILENAME_FORMAT, Locale.US)
                    .format(System.currentTimeMillis()) + ".jpg")
 
            // Create output options object which contains file + metadata
-           return  ImageCapture.OutputFileOptions.Builder(photoFile).build()
+           return  ImageCapture.OutputFileOptions.Builder(photoFile!!).build()
        }
     }
 
